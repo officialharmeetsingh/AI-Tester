@@ -1,0 +1,18 @@
+{
+  "name": "local-testcase-generator",
+  "version": "1.0.0",
+  "description": "Local LLM Test Case Generator using Ollama API with llama3.2",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "verify": "bash tools/verify_ollama.sh"
+  },
+  "keywords": ["testcase", "llm", "ollama", "qa", "testing"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1"
+  }
+}

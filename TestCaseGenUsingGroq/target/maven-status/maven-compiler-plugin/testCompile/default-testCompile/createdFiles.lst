@@ -1,0 +1,3 @@
+com/salesforce/tests/ValidLoginTest.class
+com/salesforce/tests/InvalidLoginTest.class
+com/salesforce/base/BaseTest.class

@@ -1,0 +1,6 @@
+.env
+.tmp/
+__pycache__/
+*.pyc
+converted_scripts/
+.DS_Store

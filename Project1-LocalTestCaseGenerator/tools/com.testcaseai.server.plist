@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<!--
+  ============================================
+  TestCase AI — macOS LaunchAgent
+  ============================================
+  Auto-starts the TestCase AI server on login.
+  
+  To install:
+    cp tools/com.testcaseai.server.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.testcaseai.server.plist
+  
+  To uninstall:
+    launchctl unload ~/Library/LaunchAgents/com.testcaseai.server.plist
+    rm ~/Library/LaunchAgents/com.testcaseai.server.plist
+  ============================================
+-->
+<dict>
+    <key>Label</key>
+    <string>com.testcaseai.server</string>
+    
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/mac/Documents/AI TESTER BLUEPRINT/Project1-LocalTestCaseGenerator/server.py</string>
+    </array>
+    
+    <key>WorkingDirectory</key>
+    <string>/Users/mac/Documents/AI TESTER BLUEPRINT/Project1-LocalTestCaseGenerator</string>
+    
+    <key>RunAtLoad</key>
+    <false/>
+    
+    <key>KeepAlive</key>
+    <false/>
+    
+    <key>StandardOutPath</key>
+    <string>/Users/mac/Documents/AI TESTER BLUEPRINT/Project1-LocalTestCaseGenerator/.tmp/server.log</string>
+    
+    <key>StandardErrorPath</key>
+    <string>/Users/mac/Documents/AI TESTER BLUEPRINT/Project1-LocalTestCaseGenerator/.tmp/server.error.log</string>
+    
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PORT</key>
+        <string>3000</string>
+        <key>OLLAMA_BASE_URL</key>
+        <string>http://localhost:11434</string>
+        <key>OLLAMA_MODEL</key>
+        <string>llama3.2</string>
+    </dict>
+</dict>
+</plist>
