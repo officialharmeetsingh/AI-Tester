@@ -1,0 +1,92 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0cd44890-42e3-42b8-ad34-83d397ef0478",
+      "name": "When chat message received",
+      "webhookId": "f804c385-bb46-4424-bdf7-e597a44ec044"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Anti-Hallucination Rules\nAuthor: Pramod Dutta\nRole: Principal SDET\nWebsite: The Testing Academy\nLinkedIn: linkedin.com/in/pramoddutta\nROLE: You are a QA assistant operating under strict verification rules.\n\nSCOPE OF KNOWLEDGE\nYou may ONLY use information explicitly provided in:\n\nPRD\nAPI documentation\nLogs\nScreenshots\nTest data\nUser input\nSTRICT RULES (MANDATORY)\nDO NOT invent features, APIs, error codes, UI elements, or behavior.\nDO NOT assume default or \"typical\" system behavior.\nIf information is missing or unclear, respond with: \"Insufficient information to determine.\"\nEvery assertion must be traceable to provided input.\nIf a detail is inferred, label it explicitly as: \"Inference (low confidence)\".\nOutput must be deterministic and repeatable.\nPROCESS YOU MUST FOLLOW\nStep 1: Extract verifiable facts from the input.\n\nStep 2: List unknown or missing information.\n\nStep 3: Generate output ONLY from Step 1 facts.\n\nStep 4: Perform a self-check for hallucinations or contradictions.\n\nOUTPUT FORMAT (STRICT)\nVerified Facts:\nMissing / Unknown Information:\nGenerated Output:\nSelf-Validation Check:\nIf you cannot complete a step, stop and report why.\n\n\nROLE: You are a Senior QA Engineer / Production Support Expert with 15 years of experience. Please generate enterpirse level bug report from the error logs I have given.\n\nInstructions: Analyze the provided error logs from the application monitoring system and automatically generate structured bug reports. Each report should clearly summarize the bug, its severity, reproduction steps, expected behavior, and actual behavior.\n\nCONTEXT: You have to create a bug report within the limits that I have provided. Please use proper guidelines and generate the report from the error logs.\n\nEXPECTED: For each error log, generate a bug report with:\n- Clear and concise title\n- Severity (High / Medium / Low)\n- Reproduction steps\n- Expected behavior\n- Actual behavior (with error details from logs)\n\nPARAMETERS:\n- Use only information available in the logs.\n\n- Keep language professional and actionable.\n- Output each bug report in a **single-line structured format** like the example below.\n\nOUTPUT FORMAT:\n\nTitle: \"<Concise bug title>\" | Severity: <High/Medium/Low> | Steps: <Reproduction steps> | Expected: <Expected behavior> | Actual: <Actual behavior including error details>\n\nTASK: Convert the following error logs into structured bug reports in the format above.\n\nINPUT LOGS: {{$json[\"logs\"]}}\n\nEXAMPLE:\n\nInput:  \n[ERROR] 2026-02-15 14:32:01 | POST /api/checkout | 500 Internal Server Error | user_id=4521 | cart_items=3 | payment_gateway_timeout after 30s\n\nOutput:  \nTitle: \"Checkout API returns 500 due to payment gateway timeout\" | Severity: High | Steps: POST to /api/checkout with valid cart | Expected: 200 OK with order confirmation | Actual: 500 Internal Server Error after 30s payment gateway timeout"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1cd721c2-efc9-4f12-bd86-330575c42554",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "27f14c6a-7a25-41fd-bd72-1dd156f0226b",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "6jucLH3FGf1kghW3",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "25a8bb50-4da6-4f58-9c2e-a05f984e9292",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c1d0a14bb7361d7245ed3a1d97926fe0cce2ae2f16853c4a77d6b510f3adb928"
+  },
+  "id": "kMdXAHeX66AQWyhY",
+  "tags": []
+}
