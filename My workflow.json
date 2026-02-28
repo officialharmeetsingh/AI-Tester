@@ -1,0 +1,190 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -192,
+        -64
+      ],
+      "id": "b36858cb-f3f0-48df-8a03-3bab8ca2990f",
+      "name": "When chat message received",
+      "webhookId": "b90ad713-8d18-4514-8304-ce657aa2973a"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You areRole: you are a QA automation tester with 15 years of experience. You have a very good understanding of IT, your task is to generate high-quality enterprise level functional test cases based strictly on the provided requirement.\n\nInstructions: \n1. Carefully analyse the requirement.\n2. Identify:\n- Functional behaviours\n- Business rules\n- Validation rules\n- Edge cases\n- Negative scenarios\n- Boundary conditions\n- Error handling scenarios\n3. Do NOT assume functionality that is not mentioned.\n4. Generate ONLY from the provided requirement. If info is missing, write \"Needs clarification\"\n5. Ensure complete coverage of the requirement.\n6. Avoid duplicate test cases.\n7. Include both positive and negative scenarios.\n8. Write clear, professional, and executable test cases.\n\nContext: You are given a Jira ticket (story) which you will read and then based on that you will create high quality functional test cases. Please use Jira KAN-40 story as jira ticket or PRD to create the test cases.\n\nExample:\n\nTest Case ID\tModule\tTest Scenario\tPreconditions\tTest Steps\tTest Data\tExpected Result\tPriority\tType\nTC-001\t[Module Name]\t[Scenario Description]\t[List preconditions]\t1. [Step 1]\n2. [Step 2]\n3. [Step 3]\t[Input data]\t[Expected outcome]\t[P1/P2/etc.]\t[Functional/UI/etc.]\nTC-002\t[Module Name]\t[Scenario Description]\t[List preconditions]\t1. [Step 1]\n2. [Step 2]\n3. [Step 3]\t[Input data]\t[Expected outcome]\t[P1/P2/etc.]\t[Functional/UI/etc.]\nPARAMETERS: INPUT:\nYou will receive either:\n1. A JIRA ticket ID with its full description\n\nOutput: \nTest Case ID\tModule\tTest Scenario\tPreconditions\tTest Steps\tTest Data\tExpected Result\tPriority\tType\nTC-001\t[Module Name]\t[Scenario Description]\t[List preconditions]\t1. [Step 1]\n2. [Step 2]\n3. [Step 3]\t[Input data]\t[Expected outcome]\t[P1/P2/etc.]\t[Functional/UI/etc.]\nTC-002\t[Module Name]\t[Scenario Description]\t[List preconditions]\t1. [Step 1]\n2. [Step 2]\n3. [Step 3]\t[Input data]\t[Expected outcome]\t[P1/P2/etc.]\t[Functional/UI/etc.]\n a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        32,
+        -80
+      ],
+      "id": "9f721763-7c5d-4f9e-812c-fcd704d554ef",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        144
+      ],
+      "id": "da569990-1b09-4ec4-9275-308763d2aefc",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "6jucLH3FGf1kghW3",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "issueKey": "https://officialharmeetsingh.atlassian.net/browse/KAN-40",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        272,
+        112
+      ],
+      "id": "8079d688-575f-464c-9714-e2f2cae53e69",
+      "name": "Get an issue in Jira Software",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "4KTDhz2TP5XawN9N",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1X2y9zd7I08SpvhorLiBJ52b2DGZDsuACJQ9yDoGxoh8",
+          "mode": "list",
+          "cachedResultName": "Untitled spreadsheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1X2y9zd7I08SpvhorLiBJ52b2DGZDsuACJQ9yDoGxoh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1X2y9zd7I08SpvhorLiBJ52b2DGZDsuACJQ9yDoGxoh8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "output"
+          ],
+          "schema": [
+            {
+              "id": "output",
+              "displayName": "output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        384,
+        -80
+      ],
+      "id": "0a9f6b05-ff65-4bca-9a8d-c1aa2d951a27",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TOrSKszynaqTqkZo",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an issue in Jira Software": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "66412190-9996-4012-a994-57fbf09aae61",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c1d0a14bb7361d7245ed3a1d97926fe0cce2ae2f16853c4a77d6b510f3adb928"
+  },
+  "id": "M9cXjDRtMLMcJ9jf",
+  "tags": []
+}
